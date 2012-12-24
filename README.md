@@ -1,4 +1,4 @@
 PSZT
 ====
 
-Sieć neuronowa wykrywająca intruzów w sieci/komputerze na podstawie zużycia zasobów.
+Project for Artificial Intelligence on my studies - neural network to detect intruders in a computer network.
