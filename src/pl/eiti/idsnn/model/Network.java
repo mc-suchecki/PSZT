@@ -29,5 +29,19 @@ public class Network {
 	public Value getValue(){
 		return layers.get(2).getNodes().get(0).getValue();
 	}
+	/**
+	 * feeds next portion of data to the first layer of neurons
+	 */
+	public void feedData(){
+		//get data form source
+		Value val = new Value();
+		for(Node node : layers.get(0).getNodes()){
+			node.setValue(val);
+		}
+	}
+	public void backPropagate(){
+		
+	}
+	
 	
 }

@@ -29,5 +29,12 @@ public class Node {
 	public void updateWeights(){
 		
 	}
+	/**
+	 * sets a predefined value, not computed by the function
+	 * for use only in the first layer
+	 */
+	public void setValue(Value val){
+		//TODO implement
+	}
 
 }
