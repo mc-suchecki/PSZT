@@ -11,7 +11,7 @@ public class Network {
 	List<Layer> layers = new LinkedList<Layer>();
 	
 	/**
-	 * Gets numbers of nodes in each layer
+	 * As a parameter gets a numbers of nodes in each layer
 	 */
 	public Network(int first, int second, int third){
 		layers.add(new Layer(first));
@@ -24,6 +24,10 @@ public class Network {
 		layers.get(0).addNextLayer(layers.get(2));
 		
 		layers.get(0).addPrevLayer(layers.get(1));
+	}
+	
+	public Value getValue(){
+		return layers.get(2).getNodes().get(0).getValue();
 	}
 	
 }

@@ -21,6 +21,9 @@ public class Node {
 		prevNodes.add(con);
 	}
 	public Value getValue(){
+		for(Connection con : prevNodes)
+			con.getPrevious().getValue();
+		//TODO sth here with values
 		return new Value();
 	}
 	public void updateWeights(){
