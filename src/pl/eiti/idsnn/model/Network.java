@@ -14,9 +14,16 @@ public class Network {
 	 * Gets numbers of nodes in each layer
 	 */
 	public Network(int first, int second, int third){
-		layers.add(new Layer(first, null));
-		layers.add(new Layer(second, layers.get(0)));
-		layers.add(new Layer(third, layers.get(1)));
+		layers.add(new Layer(first));
+		layers.add(new Layer(second));
+		layers.add(new Layer(third));
+		
+		layers.get(0).addNextLayer(layers.get(1));
+		
+		layers.get(0).addPrevLayer(layers.get(0));
+		layers.get(0).addNextLayer(layers.get(2));
+		
+		layers.get(0).addPrevLayer(layers.get(1));
 	}
 	
 }
