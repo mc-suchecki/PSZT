@@ -6,12 +6,16 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import au.com.bytecode.opencsv.CSVReader;
+import pl.eiti.idsnn.model.Layer;
 import pl.eiti.idsnn.model.Network;
 
 public class Pszt {
 	public static void main(String arg[]) {
 		System.out.println("Tak.");
-		Network net = new Network(4, 4, 1);
+		Network net = new Network();
+		net.addLayer(new Layer(4));
+		net.addLayer(new Layer(4));
+		net.addLayer(new Layer(1));
 		train(net);
 		
 	}
@@ -34,7 +38,7 @@ public class Pszt {
 				data.add(Double.parseDouble(nextLine[2]));
 				data.add(Double.parseDouble(nextLine[3]));
 				
-				net.feedData(data);
+				net.forwardPropagate(data);
 				Boolean result;
 				if (nextLine[4] == "normal")
 					 result = false;

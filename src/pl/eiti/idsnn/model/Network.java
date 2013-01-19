@@ -1,51 +1,58 @@
 package pl.eiti.idsnn.model;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A neural network
- * 
+ * A neural network class.
  */
 public class Network {
-	List<Layer> layers = new LinkedList<Layer>();
+	List<Layer> layers = new ArrayList<Layer>();
 	
-	/**
-	 * As a parameter gets a numbers of nodes in each layer
-	 */
-	public Network(int first, int second, int third){
-		layers.add(new Layer(first));
-		layers.add(new Layer(second));
-		layers.add(new Layer(third));
+	public Network() {
 		
-		layers.get(0).addNextLayer(layers.get(1));
-		
-		layers.get(0).addPrevLayer(layers.get(0));
-		layers.get(0).addNextLayer(layers.get(2));
-		
-		layers.get(0).addPrevLayer(layers.get(1));
 	}
 	
-	public Value getValue(){
-		// gets the value of the first (and only) neuron in the last layer
-		// which is recursively computed from the previous values
-		return layers.get(2).getNodes().get(0).getValue();
-	}
 	/**
-	 * feeds next portion of data to the first layer of neurons
+	 * Method responsible for adding new Layer to Network.
 	 */
-	public void feedData(List<Double> data){
-		//get data form source
-		Value val = new Value();
+	public void addLayer(Layer newLayer) {
+		layers.add(newLayer);
+		if(layers.size() == 1) return;
+		Layer previousLayer = layers.get(layers.size() - 1);
+		previousLayer.addNextLayer(newLayer);
+		newLayer.addPrevLayer(previousLayer);
+	}
+	
+	/**
+	 * Method responsible for calculating the results from initial values.
+	 * @return results of the forward propagation - vector of values from last Layer.
+	 */
+	public List<Double> forwardPropagate(final List<Double> inputValues) {
+		//TODO check if inputValues.size == firstLayer.size
+		
+		//feed data to first layer
 		int i = 0;
-		for(Node node : layers.get(0).getNodes()){
-			node.setValue(data.get(i));
+		for(Neuron neuron : layers.get(0).getNeurons()){
+			neuron.setCurrentValue(inputValues.get(i));
 			i++;
 		}
+		
+		for(Layer layer : layers)
+			layer.propagateForward();
+		
+		//return results
+		List<Double> results = new ArrayList<Double>();
+		for(Neuron neuron : layers.get(layers.size()).getNeurons())
+			results.add(neuron.getCurrentValue());
+		return results;
 	}
+	
+	/**
+	 * Method responsible for ...
+	 */
 	public void backPropagate(Boolean result){
 		
 	}
-	
 	
 }

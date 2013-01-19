@@ -8,8 +8,7 @@ import java.util.List;
  * 
  */
 public class Layer {
-
-	private List<Node> nodes = new LinkedList<Node>();
+	private List<Neuron> neurons = new LinkedList<Neuron>();
 
 	/**
 	 * @param number
@@ -19,34 +18,33 @@ public class Layer {
 	 */
 	public Layer(int nodesNumber) {
 		for (int i = 0; i < nodesNumber; i++) {
-			nodes.add(new Node());
+			neurons.add(new Neuron());
 		}
 	}
 
 	public void addNextLayer(Layer lay) {
 		System.out.println("Adding next layer");
-		double weight = 0.5; //TODO random?
-		for(Node node : nodes){
-			for(Node nextNode : lay.getNodes())
-				node.addNextConnection(new Connection(node, nextNode, weight));
+		for(Neuron neuron : neurons){
+			for(Neuron nextNeuron : lay.getNeurons())
+				neuron.addNextConnection(new Connection(neuron, nextNeuron, Math.random()));
 		}
 	}
 
 	public void addPrevLayer(Layer lay) {
 		System.out.println("Adding previous layer");
-		double weight = 0.5; //TODO random?
-		for(Node node : nodes){
-			for(Node prevNode : lay.getNodes())
-				node.addNextConnection(new Connection(prevNode, node, weight));
+		for(Neuron neuron : neurons){
+			for(Neuron prevNeuron : lay.getNeurons())
+				neuron.addNextConnection(new Connection(prevNeuron, neuron, Math.random()));
 		}
 	}
 
-	public void updateWeights() {
+	public List<Neuron> getNeurons(){
+		return neurons;
+	}
 
-	}
-	
-	public List<Node> getNodes(){
-		return nodes;
-	}
+	public void propagateForward() {
+		for(Neuron neuron : neurons)
+			neuron.propagateForward();
+  }
 
 }

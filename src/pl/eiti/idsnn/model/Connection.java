@@ -1,11 +1,11 @@
 package pl.eiti.idsnn.model;
 
 public class Connection {
-	private Node previous;
-	private Node next;
+	private Neuron previous;
+	private Neuron next;
 	private double weight;
 	
-	public Connection(Node previous, Node next, double weight) {
+	public Connection(Neuron previous, Neuron next, double weight) {
 		this.previous = previous;
 		this.next = next;
 		this.weight = weight;
@@ -19,11 +19,11 @@ public class Connection {
 		this.weight = weight;
 	}
 
-	public Node getPrevious() {
+	public Neuron getPrevious() {
 		return previous;
 	}
 
-	public Node getNext() {
+	public Neuron getNext() {
 		return next;
 	}
 }
