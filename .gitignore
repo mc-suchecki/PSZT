@@ -10,3 +10,6 @@
 *.lai
 *.la
 *.a
+
+# Java classes
+*.class
