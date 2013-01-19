@@ -1,5 +1,6 @@
 package pl.eiti.idsnn.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -7,8 +8,8 @@ import java.util.List;
  * 
  */
 public class Node {
-	private List<Connection> nextNodes;
-	private List<Connection> prevNodes;
+	private List<Connection> nextNodes = new LinkedList<Connection>();
+	private List<Connection> prevNodes = new LinkedList<Connection>();
 	
 	public Node(){
 		
