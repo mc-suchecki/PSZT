@@ -27,19 +27,23 @@ public class Network {
 	}
 	
 	public Value getValue(){
+		// gets the value of the first (and only) neuron in the last layer
+		// which is recursively computed from the previous values
 		return layers.get(2).getNodes().get(0).getValue();
 	}
 	/**
 	 * feeds next portion of data to the first layer of neurons
 	 */
-	public void feedData(){
+	public void feedData(List<Double> data){
 		//get data form source
 		Value val = new Value();
+		int i = 0;
 		for(Node node : layers.get(0).getNodes()){
-			node.setValue(val);
+			node.setValue(data.get(i));
+			i++;
 		}
 	}
-	public void backPropagate(){
+	public void backPropagate(Boolean result){
 		
 	}
 	

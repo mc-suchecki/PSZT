@@ -33,7 +33,7 @@ public class Node {
 	 * sets a predefined value, not computed by the function
 	 * for use only in the first layer
 	 */
-	public void setValue(Value val){
+	public void setValue(Double double1){
 		//TODO implement
 	}
 
