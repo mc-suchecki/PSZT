@@ -11,15 +11,23 @@ import pl.eiti.idsnn.model.Network;
 
 public class Pszt {
 	public static void main(String arg[]) {
-		Network net = new Network();
-		net.addLayer(new Layer(4));
-		net.addLayer(new Layer(4));
-		net.addLayer(new Layer(1));
-		train(net);
+    Network net = new Network();
+    if(arg.length == 0) {
+      System.out.println("No arguments specified. Amounts of neurons in each layer expected.");
+      return;
+    }
+
+    for(String numOfNeurons : arg) {
+      net.addLayer(new Layer(Integer.parseInt(numOfNeurons)));
+    }
+
+    Integer totalNumberOfIterations = train(net);
+    System.out.println("Total number of iterations: ".concat(totalNumberOfIterations.toString()));
 	}
 
-	private static void train(Network net) {
-		try {
+	private static int train(Network net) {
+		int totalNumOfIters = 0;
+	  try {
 			CSVReader reader = new CSVReader(new FileReader("test.csv"));
 			String[] nextLine;
 			int i = 0;
@@ -40,6 +48,7 @@ public class Pszt {
 				do {
 					error = trainingSession(net, data, result);
 					j++;
+					totalNumOfIters++;
 				} while (error > eps);
 				System.out.println("Completed training session in " + j
 						+ " iterations");
@@ -56,6 +65,8 @@ public class Pszt {
 		} catch (UnsuitableDataException e) {
 			System.out.println("Unsuitable data");
 		}
+	  
+	  return totalNumOfIters;
 	}
 
 	private static double trainingSession(Network net, double[] data,
