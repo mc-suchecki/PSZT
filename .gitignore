@@ -13,3 +13,4 @@
 
 # Java binaries
 *.class
+bin/
