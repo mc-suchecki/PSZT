@@ -9,7 +9,7 @@ import pl.eiti.idsnn.UnsuitableDataException;
  */
 public class Network {
   List<Layer> layers = new ArrayList<Layer>();
-  double nuFactor;
+  double nuFactor = 0.2;
 
   public Network() {}
 
@@ -66,13 +66,13 @@ public class Network {
     outputValue = outputNeuron.getCurrentValue();
     error = templateOutput - outputValue;
     
-    // error times derivative of activation function
+    //error times derivative of activation function
     delta = error * (outputValue * (1 - outputValue)); 
     outputNeuron.setDelta(delta);
   }
 
   private void updateDeltasInHiddenLayers() {
-    // for each hidden layer
+    //for each hidden layer
     for (int i = layers.size()-2; i>=0; --i) {
       for(Neuron neuron : layers.get(i).getNeurons()) {
         neuron.updateDelta();

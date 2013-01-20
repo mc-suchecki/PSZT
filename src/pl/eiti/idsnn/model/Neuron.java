@@ -4,17 +4,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * An artificial neuron
- * 
+ * An artificial neuron class.
  */
 public class Neuron {
-	/** stores connections to nodes in the next layer */
+	/** Stores connections to nodes in the next layer */
 	private List<Connection> nextNodes = new LinkedList<Connection>();
 
-	/** stores connections to nodes in the previous layer */
+	/** Stores connections to nodes in the previous layer */
 	private List<Connection> prevNodes = new LinkedList<Connection>();
 	
-	/** stores the current value of the neuron */
+	/** Stores the current value of the neuron */
 	private double currentValue;
 	private double delta;
 
@@ -44,7 +43,7 @@ public class Neuron {
 	  for(Connection conn : prevNodes) {
 	    double dW, prevWeight;
 	    
-	    // change of weight
+	    //change of weight
 	    dW = nuFactor * conn.getPrevious().getCurrentValue() * delta;
 	    prevWeight = conn.getWeight();
 	    	    
@@ -61,14 +60,18 @@ public class Neuron {
 	}
 
 	public double propagateForward() {
-		// check if the node is in the input layer
-		if (prevNodes.size() != 0)
-			currentValue = 0;
+		//if this is an input layer, there is nothing to do
+		if(prevNodes.size() == 0) return currentValue;
 		
-		for (Connection con : prevNodes) {
+		//sum weights * values from all previous neurons
+	  currentValue = 0;
+		for(Connection con : prevNodes) {
 			currentValue += con.getWeight()
 					* con.getPrevious().getCurrentValue();
 		}
+		
+		//use activation function over computed value
+		currentValue = 1.0 / (1.0 + Math.exp(-currentValue));
 		
 		return currentValue;
 	}
@@ -83,9 +86,7 @@ public class Neuron {
 	/**
 	 * Sets a predefined value, not computed by the function. For use only in
 	 * the first layer.
-	 * 
-	 * @param predefinedValue
-	 *            predefined value to set
+	 * @param predefinedValue predefined value to set
 	 */
 	public void setCurrentValue(double predefinedValue) {
 		this.currentValue = predefinedValue;
