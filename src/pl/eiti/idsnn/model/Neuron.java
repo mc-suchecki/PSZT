@@ -10,13 +10,24 @@ import java.util.List;
 public class Neuron {
 	/** stores connections to nodes in the next layer */
 	private List<Connection> nextNodes = new LinkedList<Connection>();
+
 	/** stores connections to nodes in the previous layer */
 	private List<Connection> prevNodes = new LinkedList<Connection>();
+	
 	/** stores the current value of the neuron */
 	private double currentValue;
+	private double delta;
 
 	public Neuron() {
 
+	}
+
+	public double getDelta() {
+		return delta;
+	}
+
+	public void setDelta(double delta) {
+		this.delta = delta;
 	}
 
 	public void addNextConnection(Connection con) {

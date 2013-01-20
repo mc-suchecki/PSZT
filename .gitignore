@@ -11,5 +11,6 @@
 *.la
 *.a
 
-# Java classes
+# Java binaries
 *.class
+bin/*
