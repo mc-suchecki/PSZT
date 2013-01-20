@@ -29,7 +29,29 @@ public class Neuron {
 	public void setDelta(double delta) {
 		this.delta = delta;
 	}
+	
+	public void updateDelta() {
+	  double newDelta = 0;
+	  for(Connection conn : nextNodes) {
+	    newDelta += conn.getWeight() * conn.getNext().getDelta();
+	  }
+	  
+	  //delta times derivative of activation function
+	  this.delta = newDelta * currentValue * (1 - currentValue);
+	}
 
+	public void updateWeights(double nuFactor) {
+	  for(Connection conn : prevNodes) {
+	    double dW, prevWeight;
+	    
+	    // change of weight
+	    dW = nuFactor * conn.getPrevious().getCurrentValue() * delta;
+	    prevWeight = conn.getWeight();
+	    	    
+	    conn.setWeight(prevWeight + dW);
+	  }
+	}
+	
 	public void addNextConnection(Connection con) {
 		nextNodes.add(con);
 	}

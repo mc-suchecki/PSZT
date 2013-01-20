@@ -3,18 +3,13 @@ package pl.eiti.idsnn.model;
 import java.util.ArrayList;
 import java.util.List;
 import pl.eiti.idsnn.UnsuitableDataException;
+
 /**
  * A neural network class.
  */
 public class Network {
   List<Layer> layers = new ArrayList<Layer>();
-  double nRule;
-
-  public void backPropagate(double templateOutput){
-    updateDeltaForOutputLayer(templateOutput);
-    updateDeltasForHiddenLayers();
-    correctWeights();
-  }
+  double nuFactor;
 
   public Network() {}
 
@@ -56,32 +51,40 @@ public class Network {
 
     return results;
   }
+
+  public void backPropagate(double templateOutput){
+    updateDeltaInOutputLayer(templateOutput);
+    updateDeltasInHiddenLayers();
+    correctWeights();
+  }
   
-  private void updateDeltaForOutputLayer(double templateOutput) {
+  private void updateDeltaInOutputLayer(double templateOutput) {
     int numOfLayers = layers.size()-1;
     Neuron outputNeuron = (layers.get(numOfLayers).getNeurons()).get(0);
 
     double outputValue, delta, error;
     outputValue = outputNeuron.getCurrentValue();
     error = templateOutput - outputValue;
-    delta = error * (outputValue * (1 - outputValue)); // error times derivative of activation function
+    
+    // error times derivative of activation function
+    delta = error * (outputValue * (1 - outputValue)); 
     outputNeuron.setDelta(delta);
   }
 
-  private void updateDeltasForHiddenLayers() {
+  private void updateDeltasInHiddenLayers() {
     // for each hidden layer
-    for (int i = layers.size()-2; i>0; --i) {
+    for (int i = layers.size()-2; i>=0; --i) {
       for(Neuron neuron : layers.get(i).getNeurons()) {
-        updateNeuronsDelta(neuron);
+        neuron.updateDelta();
       }
     }
   }
   
-  private void updateNeuronsDelta(final Neuron neuron) {
-    
-  }
-  
   private void correctWeights() {
-    
+    for(Layer layer : layers) {
+      for(Neuron neuron: layer.getNeurons()) {
+        neuron.updateWeights(nuFactor);
+      }
+    }
   }
 }
