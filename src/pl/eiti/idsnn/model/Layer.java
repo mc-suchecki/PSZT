@@ -23,28 +23,29 @@ public class Layer {
 	}
 
 	public void addNextLayer(Layer lay) {
-		System.out.println("Adding next layer");
-		for(Neuron neuron : neurons){
-			for(Neuron nextNeuron : lay.getNeurons())
-				neuron.addNextConnection(new Connection(neuron, nextNeuron, Math.random()));
+		for (Neuron neuron : neurons) {
+			for (Neuron nextNeuron : lay.getNeurons())
+				neuron.addNextConnection(new Connection(neuron, nextNeuron,
+						Math.random()));
 		}
 	}
 
 	public void addPrevLayer(Layer lay) {
-		System.out.println("Adding previous layer");
-		for(Neuron neuron : neurons){
-			for(Neuron prevNeuron : lay.getNeurons())
-				neuron.addNextConnection(new Connection(prevNeuron, neuron, Math.random()));
+		for (Neuron neuron : neurons) {
+			for (Neuron prevNeuron : lay.getNeurons()){
+				neuron.addPrevConnection(new Connection(prevNeuron, neuron,
+						Math.random()));
+			}
 		}
 	}
 
-	public List<Neuron> getNeurons(){
+	public List<Neuron> getNeurons() {
 		return neurons;
 	}
 
 	public void propagateForward() {
-		for(Neuron neuron : neurons)
+		for (Neuron neuron : neurons)
 			neuron.propagateForward();
-  }
+	}
 
 }
