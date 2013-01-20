@@ -52,13 +52,15 @@ public class Network {
     return results;
   }
 
-  public void backPropagate(double templateOutput){
-    updateDeltaInOutputLayer(templateOutput);
+  public double backPropagate(double templateOutput){
+    double error = updateDeltaInOutputLayer(templateOutput);
     updateDeltasInHiddenLayers();
     correctWeights();
+    
+    return error;
   }
   
-  private void updateDeltaInOutputLayer(double templateOutput) {
+  private double updateDeltaInOutputLayer(double templateOutput) {
     int numOfLayers = layers.size()-1;
     Neuron outputNeuron = (layers.get(numOfLayers).getNeurons()).get(0);
 
@@ -69,11 +71,13 @@ public class Network {
     // error times derivative of activation function
     delta = error * (outputValue * (1 - outputValue)); 
     outputNeuron.setDelta(delta);
+    
+    return error;
   }
 
   private void updateDeltasInHiddenLayers() {
-    // for each hidden layer
-    for (int i = layers.size()-2; i>=0; --i) {
+    // for each hidden layer (first layer is skipped)
+    for (int i = layers.size()-2; i>0; --i) {
       for(Neuron neuron : layers.get(i).getNeurons()) {
         neuron.updateDelta();
       }
@@ -81,7 +85,8 @@ public class Network {
   }
   
   private void correctWeights() {
-    for(Layer layer : layers) {
+    for(int i = 1; i<layers.size(); ++i) {
+      Layer layer = layers.get(i);
       for(Neuron neuron: layer.getNeurons()) {
         neuron.updateWeights(nuFactor);
       }
