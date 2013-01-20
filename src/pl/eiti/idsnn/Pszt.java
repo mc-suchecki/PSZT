@@ -23,7 +23,7 @@ public class Pszt {
 			CSVReader reader = new CSVReader(new FileReader("test.csv"));
 			String[] nextLine;
 			int i = 0;
-			while ((nextLine = reader.readNext()) != null && i < 2) {
+			while ((nextLine = reader.readNext()) != null && i < 40) {
 				// convert data to doubles
 				int dataSize = nextLine.length - 1; // all except the result
 				double[] data = new double[dataSize];
@@ -35,11 +35,15 @@ public class Pszt {
 
 				// training session
 				double error;
-				double eps = 1;
+				double eps = 0.01;
+				int j = 0;
 				do {
 					error = trainingSession(net, data, result);
-				} while (error < eps);
-				
+					j++;
+				} while (error > eps);
+				System.out.println("Completed training session in " + j
+						+ " iterations");
+
 				i++;
 			}
 			reader.close();
@@ -57,9 +61,10 @@ public class Pszt {
 	private static double trainingSession(Network net, double[] data,
 			Double result) throws UnsuitableDataException {
 		List<Double> results = net.forwardPropagate(data);
-		System.out.println(results);
+		//System.out.println(results.get(0).toString() + " blad: "
+		//		+ (new Double((result - results.get(0)))).toString());
 		net.backPropagate(result);
-		return 1.1; // TODO return error
+		return result - results.get(0);
 
 	}
 }
