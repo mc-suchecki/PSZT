@@ -8,9 +8,11 @@ import java.util.List;
  * 
  */
 public class Neuron {
+	/** stores connections to nodes in the next layer */
 	private List<Connection> nextNodes = new LinkedList<Connection>();
+	/** stores connections to nodes in the previous layer */
 	private List<Connection> prevNodes = new LinkedList<Connection>();
-
+	/** stores the current value of the neuron */
 	private double currentValue;
 
 	public Neuron() {
@@ -26,14 +28,15 @@ public class Neuron {
 	}
 
 	public double propagateForward() {
-		if (prevNodes.size() != 0) { //check if the node is in input layer
+		// check if the node is in the input layer
+		if (prevNodes.size() != 0)
 			currentValue = 0;
-			for (Connection con : prevNodes) {
-				currentValue += con.getWeight()
-						* con.getPrevious().getCurrentValue();
-			}
+		
+		for (Connection con : prevNodes) {
+			currentValue += con.getWeight()
+					* con.getPrevious().getCurrentValue();
 		}
-
+		
 		return currentValue;
 	}
 

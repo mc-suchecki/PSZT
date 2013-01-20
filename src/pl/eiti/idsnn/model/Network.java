@@ -2,7 +2,7 @@ package pl.eiti.idsnn.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import pl.eiti.idsnn.UnsuitableDataException;
 /**
  * A neural network class.
  */
@@ -29,10 +29,10 @@ public class Network {
 	 * @return results of the forward propagation - vector of values from last Layer.
 	 * @throws Exception 
 	 */
-	public List<Double> forwardPropagate(final double[] inputValues) throws Exception {
+	public List<Double> forwardPropagate(final double[] inputValues) throws UnsuitableDataException {
 		
 		if(inputValues.length != layers.get(0).getNeurons().size())
-			throw new Exception();
+			throw new UnsuitableDataException();
 		
 		//feed data to first layer
 		int i = 0;
@@ -52,7 +52,7 @@ public class Network {
 	}
 	
 	/**
-	 * Method responsible for ...
+	 * Method responsible for backpropagation
 	 */
 	public void backPropagate(Double result){
 		
