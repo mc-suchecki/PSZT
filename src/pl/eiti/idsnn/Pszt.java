@@ -16,20 +16,21 @@ public class Pszt {
       System.out.println("No arguments specified. Amounts of neurons in each layer expected.");
       return;
     }
-
-    for(String numOfNeurons : arg) {
-      net.addLayer(new Layer(Integer.parseInt(numOfNeurons)));
+    net.addLayer(new Layer(4));
+    for(int i = 0; i<arg.length; ++i) {
+      net.addLayer(new Layer(Integer.parseInt(arg[i])));
     }
 
     Integer totalNumberOfIterations = train(net);
-    System.out.println("Total number of iterations: ".concat(totalNumberOfIterations.toString()));
 	}
 
 	private static int train(Network net) {
+		double eps = 0.01;
 		int totalNumOfIters = 0;
 	  try {
 			CSVReader reader = new CSVReader(new FileReader("test.csv"));
 			String[] nextLine;
+			
 			int i = 0;
 			while ((nextLine = reader.readNext()) != null && i < 40) {
 				// convert data to doubles
@@ -43,18 +44,42 @@ public class Pszt {
 
 				// training session
 				double error;
-				double eps = 0.01;
 				int j = 0;
 				do {
 					error = trainingSession(net, data, result);
 					j++;
 					totalNumOfIters++;
 				} while (error > eps);
-				System.out.println("Completed training session in " + j
-						+ " iterations");
-
 				i++;
 			}
+			
+			System.out.println("Total number of iterations: "+totalNumOfIters);
+			//testing
+			i = 0;
+			int falsePositives = 0;
+			int undetectedAttacks = 0;
+			while ((nextLine = reader.readNext()) != null && i < 2000) {
+				// convert data to doubles
+				int dataSize = nextLine.length - 1; // all except the result
+				double[] data = new double[dataSize];
+				for (int j = 0; j < dataSize; ++j)
+					data[j] = Double.parseDouble(nextLine[j]);
+
+				// get result
+				Double result = (nextLine[4] == "normal") ? 0.0 : 1.0;
+				// testing session
+				List<Double> results = net.forwardPropagate(data);
+				if (result - results.get(0) > eps){ // error!
+					if(result == 0.0)
+						falsePositives +=1;
+					else
+						undetectedAttacks +=1;
+				}
+				i++;
+			}
+			System.out.println("Tested on "+(i+1)+" cases.");
+			System.out.println("False positives: "+falsePositives+".");
+			System.out.println("Undetected attacks: "+undetectedAttacks+".");
 			reader.close();
 		} catch (FileNotFoundException e1) {
 			System.out.println("No such file");
