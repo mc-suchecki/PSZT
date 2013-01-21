@@ -20,6 +20,7 @@ public class Pszt {
     for(int i = 0; i<arg.length; ++i) {
       net.addLayer(new Layer(Integer.parseInt(arg[i])));
     }
+    net.addLayer(new Layer(1));
 
     Integer totalNumberOfIterations = train(net);
 	}

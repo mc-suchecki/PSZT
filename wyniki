@@ -1,0 +1,17 @@
+ilość neuronów          całkowita liczba    liczba nieprawidłowych
+w kolejnych             iteracji            wyników
+warstwach ukrytych
+-------------------------------------------------------------------
+2 3 4                   13520               0
+4 4                     16387               0
+2 2                     45394               0
+4 4 3                   15832               0
+4 4 4                   10533               0
+4 4 4 4                 10112               0
+4 8 8 4                 6960                0
+4 8                     7035                0
+4 10 10                 2904                0
+4 8 8                   3582                0
+
+(4)-4-8-(1) wykazuje dosyć szybką zbieżność przy stosunkowo niewielkim nakładzie
+obliczeniowym
